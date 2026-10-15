@@ -108,12 +108,13 @@ def test_overdue_recurrence_uses_completion_day(household):
     )
 
 
-def test_early_completion_preserves_future_due_date(household):
+@pytest.mark.parametrize("frequency,days", [("daily", 1), ("weekly", 7)])
+def test_early_completion_uses_completion_day(household, frequency, days):
     _, mochi, _, scheduler = household
-    task = Task("Care", "08:00", DAY + timedelta(days=2), "weekly")
+    task = Task("Care", "08:00", DAY + timedelta(days=2), frequency)
     mochi.add_task(task)
     assert scheduler.mark_task_complete(task.id, DAY).due_date == DAY + timedelta(
-        days=9
+        days=days
     )
 
 

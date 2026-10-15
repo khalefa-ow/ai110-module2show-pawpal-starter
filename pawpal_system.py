@@ -192,9 +192,7 @@ class Scheduler:
         next_task = None
         if task.frequency != "once":
             days = 1 if task.frequency == "daily" else 7
-            next_date = max(task.due_date, completed_on or date.today()) + timedelta(
-                days=days
-            )
+            next_date = (completed_on or date.today()) + timedelta(days=days)
             next_task = replace(
                 task, due_date=next_date, completed=False, id=uuid4().hex
             )

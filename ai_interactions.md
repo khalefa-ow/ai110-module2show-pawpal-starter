@@ -14,7 +14,9 @@
 
 **Corrections during agent verification:** The first test run reached 29 passing cases and timed out on the first table-rendering UI integration under AppTest's three-second default. The harness now allows 15 seconds; subsequent full runs passed in under a second. Ruff fixed import organization. No manual student corrections are claimed.
 
-**Verification:** CLI output is captured in README; 30 pytest cases pass, including multi-pet selection, a zero budget, overlapping versus adjacent tasks, and a live Streamlit widget workflow. Browser inspection verified the populated household and conflict warning.
+**Verification:** CLI output is captured in README; 31 pytest cases cover multi-pet selection, a zero budget, overlapping versus adjacent tasks, and a live Streamlit widget workflow. Browser inspection verified the populated household and conflict warning.
+
+**Requirements audit:** The user asked to double-check every requirement. The audit found that early completion used the later of the original due date and completion date. This was revised to completion date plus one/seven days to follow the course rule directly. The regression coverage now checks both early daily and early weekly completion; `REQUIREMENTS_AUDIT.md` records the complete checklist and outstanding student review/submission steps.
 
 **Publishing adjustment:** An optional GitHub Actions workflow was omitted because the existing GitHub token lacks workflow permissions. Local verification remains available with `python -m pytest`. Browser review also led to moving the **All dates** checkbox below the filter columns so its label remains readable at narrower window widths.
 

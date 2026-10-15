@@ -22,7 +22,7 @@ The review also added duplicate-name checks and validated task replacement: an i
 
 Tasks have explicit dates and zero-padded `HH:MM` times. The schedule sorts by `(due_date, time)`, while filters can combine pet, status, and date. The plan builder considers only pending tasks for the selected day, tries high before medium before low priority, then breaks ties by time. It uses the owner's total available care minutes and avoids overlapping selected intervals across all pets. Skipped tasks remain pending with explanations.
 
-Daily and weekly recurrence use `timedelta`. The next due date is based on the later of the original due date or completion date. Completing the same occurrence twice produces only one next occurrence. Completed history remains visible.
+Daily and weekly recurrence use `timedelta`. The next due date is the completion date plus one or seven days, matching the course instructions. A requirements audit revised the initial policy, which had preserved the original due date for early completions. Completing the same occurrence twice produces only one next occurrence. Completed history remains visible.
 
 ### b. Tradeoffs
 
@@ -58,7 +58,7 @@ The five main verification areas are: entity relationships and validation; chron
 
 Three Streamlit integration tests exercise actual widget submissions, including adding a pet, scheduling/editing/completing a task, retaining session data after reruns, filtering the example household, generating a plan, and rejecting a blank pet name. The first full run passed 29 tests but hit the default three-second AppTest timeout when rendering the first table. The test harness allows 15 seconds for UI initialization; the next complete run passed in under a second. The timeout change did not change scheduler behavior or reduce assertions.
 
-The CLI was run with a fixed date (`python main.py --date 2026-10-14`) so the documented output is reproducible. A live browser check confirmed the example's two pets, chronological table, and conflict warning. `python -m pytest` passed all 30 tests; Ruff checked the Python code.
+The CLI was run with a fixed date (`python main.py --date 2026-10-14`) so the documented output is reproducible. A live browser check confirmed the example's two pets, chronological table, and conflict warning. The requirements audit expanded early-completion coverage to both daily and weekly tasks: all 31 tests passed in 0.85 seconds, and Ruff reported that all checks passed. A fresh CLI run exactly matched the README sample output.
 
 ### b. Confidence
 

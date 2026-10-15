@@ -72,7 +72,7 @@ classDiagram
 | Priority ranking | `Scheduler.sort_by_priority()` | High → medium → low, then date and time. |
 | Budget and overlap planning | `Scheduler.build_plan()` | Greedily select pending tasks for a chosen date in priority order, within the total minute budget and without overlapping selected intervals; return selected tasks chronologically plus reasons for skipped tasks. |
 
-For recurrence, the next date is `max(original_due_date, completion_date) + 1 day` for daily tasks or `+ 7 days` for weekly tasks. This schedules an overdue task after completion rather than creating overdue backlog, and prevents early completion from moving a future recurrence backwards. Date arithmetic handles month/year boundaries. Use the scheduler's completion method in integrations; `Task.mark_complete()` alone only changes status.
+For recurrence, the next date is `completion_date + 1 day` for daily tasks or `completion_date + 7 days` for weekly tasks, matching the course's completion-based rule. If no completion date is supplied, today is used. This also applies when completing an overdue or future task. Date arithmetic handles month/year boundaries. Use the scheduler's completion method in integrations; `Task.mark_complete()` alone only changes status.
 
 The base conflict warning detects **exact start-time matches**. The plan builder additionally checks overlapping durations, allowing tasks that meet exactly at their boundaries. It keeps entered times rather than moving tasks. Planning is greedy, not a global optimization; its overlap checks take O(n²) in the worst case. It only considers tasks starting on the requested day, so cross-day overlaps are outside its scope. Priorities are owner-assigned, not medical recommendations.
 
@@ -138,7 +138,7 @@ Completing the same occurrence again adds no task: True.
 python -m pytest
 ```
 
-The 30 tests cover task completion/addition, empty households, multiple pets, date-aware sorting without mutation, combined filters, duplicate names, ownership checks, invalid inputs, validated edits, one-off tasks, daily/weekly recurrence, duplicate completion, overdue/early completion, month/year boundaries, leap years, exact-time warnings, priority ranking, budget limits, interval overlap, and adjacent intervals. Three Streamlit `AppTest` integrations verify real forms, task editing/completion, session reruns, example loading, table filters, plans, and error feedback.
+The 31 tests cover task completion/addition, empty households, multiple pets, date-aware sorting without mutation, combined filters, duplicate names, ownership checks, invalid inputs, validated edits, one-off tasks, daily/weekly recurrence, duplicate completion, overdue/early completion, month/year boundaries, leap years, exact-time warnings, priority ranking, budget limits, interval overlap, and adjacent intervals. Three Streamlit `AppTest` integrations verify real forms, task editing/completion, session reruns, example loading, table filters, plans, and error feedback.
 
 Actual successful test output:
 
@@ -149,18 +149,19 @@ rootdir: /Users/User/projects/PawPal
 configfile: pytest.ini
 testpaths: tests
 plugins: anyio-4.15.1
-collected 30 items
+collected 31 items
 
-tests/test_app.py ...                                                    [ 10%]
-tests/test_pawpal.py ...........................                         [100%]
+tests/test_app.py ...                                                    [  9%]
+tests/test_pawpal.py ............................                        [100%]
 
-============================== 30 passed in 0.90s ==============================
+============================== 31 passed in 0.85s ==============================
 ```
 
 **Confidence: ★★★★☆ (4/5).** Automated coverage supports the documented single-session behavior. Disk persistence, concurrent users, travel/time zones, and overnight planning are not implemented. A live Chrome check also verified the example household, sorted schedule, and conflict warning.
 
 ## Project notes
 
+- [REQUIREMENTS_AUDIT.md](REQUIREMENTS_AUDIT.md) maps the course requirements and rubric to implementation evidence and identifies the remaining student review/submission steps.
 - [reflection.md](reflection.md) records design decisions, tradeoffs, verification, and the limits of this AI-assisted implementation. It is an AI-authored implementation reflection for the student to review and personalize honestly.
 - [ai_interactions.md](ai_interactions.md) records agent work on priority/budget planning and formatting. No second-model comparison or disk-persistence extension is claimed.
 - Optional extensions implemented: priority ranking, a budget-aware plan with overlap checks, and professional output formatting.
