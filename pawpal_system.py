@@ -4,7 +4,6 @@ from dataclasses import dataclass, field, replace
 from datetime import date, datetime, timedelta
 from uuid import uuid4
 
-
 PRIORITIES = {"high": 0, "medium": 1, "low": 2}
 
 

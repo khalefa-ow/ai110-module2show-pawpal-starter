@@ -129,11 +129,11 @@ with st.expander("＋ Schedule a task", expanded=not owner.get_all_tasks()):
                 notify("Task scheduled.")
 
 st.subheader("Your schedule")
-a, b, c, d = st.columns([2, 2, 2, 1])
+a, b, c = st.columns(3)
 selected_date = a.date_input("Schedule date", value=date.today())
 pet_filter = b.selectbox("Filter by pet", ["All pets"] + [p.name for p in owner.pets])
 status_filter = c.selectbox("Status", ["Pending", "All", "Completed"])
-all_dates = d.checkbox("All dates", value=False)
+all_dates = st.checkbox("All dates", value=False)
 on_date = None if all_dates else selected_date
 status = {"Pending": False, "Completed": True, "All": None}[status_filter]
 visible_tasks = scheduler.filter_tasks(

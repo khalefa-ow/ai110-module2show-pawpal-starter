@@ -1,40 +1,27 @@
 # AI Interactions Log
 
-> **Stretch features only.** Only fill in the sections that apply to stretch features you attempted. If you did not attempt a stretch feature, leave its section blank or delete it. This file is not required for the core project.
+## Agent Workflow
 
----
+**Tool:** Codex, in this project's conversation. No subagents or second models were used.
 
-## Agent Workflow (SF7)
+**Actual user request:** “Go to https://courses.codepath.org/courses/ai110/unit/5#!projects and implement the steps there.”
 
-> Document your experience using an AI agent (e.g., Cursor Agent, Claude, Copilot) to make multi-step changes autonomously.
+**Work completed:** Read the authenticated course page and rubric; retrieved the starter; created draft UML and skeletons; implemented four dataclasses and household-wide algorithms; connected Streamlit forms to the model; added the CLI and pytest/AppTest suites; ran verification; and prepared documentation.
 
-**What task did you give the agent?**
+**Optional algorithmic extension:** `Scheduler.build_plan()` greedily chooses higher-priority tasks within an available-minute budget and rejects overlapping selected intervals. It returns explanations for skipped tasks. `sort_by_priority()` ranks high/medium/low with time as a tie breaker. The CLI shows both priority order and a 45-minute plan, while Streamlit exposes a budget input and **Generate schedule** action.
 
-<!-- Describe the goal you asked the agent to accomplish -->
+**Files modified:** `pawpal_system.py` (classes and algorithms), `main.py` (reproducible demo and formatting), `app.py` (forms, filters, completion, editing, planning), `tests/test_pawpal.py` and `tests/test_app.py` (behavior and integration verification), `diagrams/*.mmd` (architecture), `.streamlit/config.toml` (theme), `requirements.txt`, `pytest.ini`, `ruff.toml`, `.gitignore`, `README.md`, `reflection.md`, and this log.
 
-**What did the agent do?**
+**Corrections during agent verification:** The first test run reached 29 passing cases and timed out on the first table-rendering UI integration under AppTest's three-second default. The harness now allows 15 seconds; subsequent full runs passed in under a second. Ruff fixed import organization. No manual student corrections are claimed.
 
-<!-- List the steps the agent took (files edited, commands run, etc.) -->
+**Verification:** CLI output is captured in README; 30 pytest cases pass, including multi-pet selection, a zero budget, overlapping versus adjacent tasks, and a live Streamlit widget workflow. Browser inspection verified the populated household and conflict warning.
 
-**What did you have to verify or fix manually?**
+**Publishing adjustment:** An optional GitHub Actions workflow was omitted because the existing GitHub token lacks workflow permissions. Local verification remains available with `python -m pytest`. Browser review also led to moving the **All dates** checkbox below the filter columns so its label remains readable at narrower window widths.
 
-<!-- Describe anything the agent got wrong or that required human review -->
+## Output formatting
 
----
+`main.print_tasks()` uses Python formatted strings for aligned columns. `app.task_rows()` provides emoji priority/status indicators to `st.table`; `st.metric`, `st.success`, and `st.warning` distinguish totals, completed actions, and scheduling concerns. README describes these functions and the example workflow.
 
-## Prompt Comparison (SF11)
+## Scope of claims
 
-> Compare two different prompts (or two different models) on the same task.
-
-| | Option A | Option B |
-|-|----------|----------|
-| **Model / tool used** | | |
-| **Prompt** | | |
-| **Response summary** | | |
-| **What was useful** | | |
-| **Problems noticed** | | |
-| **Decision** | | |
-
-**Which approach did you use in your final implementation and why?**
-
-<!-- Your conclusion -->
+The optional persistence and two-model comparison exercises were not attempted. The reflection is an AI-authored implementation record for the student to review and personalize; it does not fabricate personal learning experiences or prompts from other chat sessions.
